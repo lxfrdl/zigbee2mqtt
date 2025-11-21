@@ -30,6 +30,7 @@ FROM base AS release
 
 ARG DATE
 ARG VERSION
+ARG ZIGBEE2MQTT_PORT=8080
 LABEL org.opencontainers.image.authors="Koen Kanters"
 LABEL org.opencontainers.image.title="Zigbee2MQTT"
 LABEL org.opencontainers.image.description="Zigbee to MQTT bridge using Zigbee-herdsman"
@@ -39,8 +40,6 @@ LABEL org.opencontainers.image.source="https://github.com/Koenkk/zigbee2mqtt"
 LABEL org.opencontainers.image.licenses="GPL-3.0"
 LABEL org.opencontainers.image.created=${DATE}
 LABEL org.opencontainers.image.version=${VERSION}
-
-EXPOSE 8080
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY dist ./dist
@@ -53,6 +52,8 @@ RUN mkdir /app/data
 
 ARG COMMIT
 RUN echo "$COMMIT" > dist/.hash
+
+EXPOSE ${ZIGBEE2MQTT_PORT}
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD [ "/sbin/tini", "--", "node", "index.js"]
