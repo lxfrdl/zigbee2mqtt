@@ -30,7 +30,6 @@ FROM base AS release
 
 ARG DATE
 ARG VERSION
-ARG ZIGBEE2MQTT_PORT=8080
 LABEL org.opencontainers.image.authors="Koen Kanters"
 LABEL org.opencontainers.image.title="Zigbee2MQTT"
 LABEL org.opencontainers.image.description="Zigbee to MQTT bridge using Zigbee-herdsman"
@@ -53,7 +52,8 @@ RUN mkdir /app/data
 ARG COMMIT
 RUN echo "$COMMIT" > dist/.hash
 
-EXPOSE ${ZIGBEE2MQTT_PORT}
+# Expose the default frontend port (see lib/util/settings.ts defaults.frontend.port)
+EXPOSE 8080
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD [ "/sbin/tini", "--", "node", "index.js"]
