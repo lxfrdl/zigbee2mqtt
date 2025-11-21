@@ -40,6 +40,8 @@ LABEL org.opencontainers.image.licenses="GPL-3.0"
 LABEL org.opencontainers.image.created=${DATE}
 LABEL org.opencontainers.image.version=${VERSION}
 
+EXPOSE 8080
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY dist ./dist
 COPY package.json LICENSE index.js data/configuration.example.yaml ./
